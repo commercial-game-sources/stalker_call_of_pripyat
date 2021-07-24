@@ -26,6 +26,7 @@
     <ClCompile>
       <DisableSpecificWarnings>4251;4275;4458;4244</DisableSpecificWarnings>
       <PrecompiledHeaderFile>pch.hpp</PrecompiledHeaderFile>
+      <WholeProgramOptimization Condition="$(Configuration.Contains('Release'))">false</WholeProgramOptimization>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

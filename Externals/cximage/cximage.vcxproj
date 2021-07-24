@@ -30,6 +30,7 @@
       <TreatWarningAsError>false</TreatWarningAsError>
       <DisableSpecificWarnings>4100;4611;4702;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WholeProgramOptimization Condition="$(Configuration.Contains('Release'))">false</WholeProgramOptimization>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>jpeg-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
