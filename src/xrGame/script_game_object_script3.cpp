@@ -165,6 +165,8 @@ class_<CScriptGameObject>& script_register_game_object2(class_<CScriptGameObject
         .def("disable_info_portion", &CScriptGameObject::DisableInfoPortion)
 
         .def("give_game_news",
+            (bool (CScriptGameObject::*)(cpcstr, cpcstr, Frect, int, int))(&CScriptGameObject::GiveGameNews))
+        .def("give_game_news",
             (void (CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR, int, int))(&CScriptGameObject::GiveGameNews))
         .def("give_game_news",
             (void (CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR, int, int, int))(&CScriptGameObject::GiveGameNews))

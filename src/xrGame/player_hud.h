@@ -55,7 +55,9 @@ struct hud_item_measures
     Fvector m_hands_attach[2]; // pos,rot
 
     void load(const shared_str& sect_name, IKinematics* K);
-	
+    void load_monolithic(const shared_str& sect_name, Fmatrix& attach_offset, IKinematics* K, CHudItem* owner);
+    void load_inertion_params(const shared_str& sect_name);
+
     struct inertion_params
     {
         float m_pitch_offset_r;
@@ -85,13 +87,18 @@ struct attachable_hud_item
 
     player_hud_motion_container m_hand_motions;
 
-    attachable_hud_item(player_hud* pparent) : m_parent(pparent), m_upd_firedeps_frame(u32(-1)),
+    bool monolithic;
+    bool should_be_reloaded;
+
+    attachable_hud_item(player_hud* pparent, bool monolithic_hud = false) : m_parent(pparent), m_upd_firedeps_frame(u32(-1)),
                                                m_parent_hud_item(nullptr), m_model(nullptr),
-                                               m_attach_place_idx(0) {}
+                                               m_attach_place_idx(0), monolithic(monolithic_hud) {}
 
     ~attachable_hud_item();
     void load(const shared_str& sect_name);
     void update(bool bForce);
+    void update_model() const;
+    void update_position(Fmatrix& trans);
     void update_hud_additional(Fmatrix& trans);
     void setup_firedeps(firedeps& fd);
     void render(IRenderable* root);
@@ -126,7 +133,7 @@ public:
     void render_hud(IRenderable* root);
     void render_item_ui();
     bool render_item_ui_query();
-    u32 anim_play(u16 part, const MotionID& M, BOOL bMixIn, const CMotionDef*& md, float speed);
+    u32 anim_play(u16 part, const MotionID& M, BOOL bMixIn, const CMotionDef*& md, float speed, IKinematicsAnimated* itemModel);
     const shared_str& section_name() const { return m_sect_name; }
     attachable_hud_item* create_hud_item(const shared_str& sect);
 
@@ -148,11 +155,13 @@ public:
     void OnMovementChanged(ACTOR_DEFS::EMoveCommand cmd);
 
 private:
+    void load_ancors();
     void update_inertion(Fmatrix& trans);
     void update_additional(Fmatrix& trans);
     bool inertion_allowed();
 
 private:
+    bool monolithic;
     shared_str m_sect_name;
 
     Fmatrix m_attach_offset;

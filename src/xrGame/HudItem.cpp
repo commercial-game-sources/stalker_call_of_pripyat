@@ -380,18 +380,20 @@ bool CHudItem::isHUDAnimationExist(pcstr anim_name) const
     {
         string256 anim_name_r;
         bool is_16x9 = UI().is_widescreen();
-        u16 attach_place_idx = pSettings->r_u16(HudItemData()->m_sect_name, "attach_place_idx");
+        u16 attach_place_idx = pSettings->read_if_exists<u16>(HudItemData()->m_sect_name, "attach_place_idx", 0);
         xr_sprintf(anim_name_r, "%s%s", anim_name, (attach_place_idx == 1 && is_16x9) ? "_16x9" : "");
         player_hud_motion* anm = HudItemData()->m_hand_motions.find_motion(anim_name_r);
         if (anm)
             return true;
     }
-    else // Third person
+    else if (HudSection().c_str()) // Third person
     {
         const CMotionDef* temp_motion_def;
         if (g_player_hud->motion_length(anim_name, HudSection(), temp_motion_def) > 100)
             return true;
     }
+    else
+        return false; // No hud section, no warning
 #ifdef DEBUG
     Msg("~ [WARNING] ------ Animation [%s] does not exist in [%s]", anim_name, HudSection().c_str());
 #endif

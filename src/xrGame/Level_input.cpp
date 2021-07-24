@@ -235,6 +235,19 @@ void CLevel::IR_OnKeyboardPress(int key)
         return;
     }
 
+    if (key == SDL_SCANCODE_KP_5)
+    {
+        if (GameID() != eGameIDSingle)
+        {
+            Msg("For this game type Demo Record is disabled.");
+            ///				return;
+        };
+        if (!pInput->iGetAsyncKeyState(SDL_SCANCODE_LSHIFT))
+        {
+            Console->Hide();
+            Console->Execute("demo_record 1");
+        }
+    }
 #ifndef MASTER_GOLD
     switch (key)
     {
@@ -295,7 +308,7 @@ void CLevel::IR_OnKeyboardPress(int key)
         break;
     }
 #endif // DEBUG
-    case SDL_SCANCODE_KP_5:
+    /*case SDL_SCANCODE_KP_5:
     {
         if (GameID() != eGameIDSingle)
         {
@@ -308,7 +321,7 @@ void CLevel::IR_OnKeyboardPress(int key)
             Console->Execute("demo_record 1");
         }
     }
-    break;
+    break;*/
 
 #ifdef DEBUG
 

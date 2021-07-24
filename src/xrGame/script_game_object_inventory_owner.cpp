@@ -113,6 +113,12 @@ void CScriptGameObject::AddIconedTalkMessage(LPCSTR caption, LPCSTR text, LPCSTR
 
 void _give_news(LPCSTR caption, LPCSTR news, LPCSTR texture_name, int delay, int show_time, int type);
 
+bool CScriptGameObject::GiveGameNews(cpcstr news, cpcstr texture_name, Frect tex_rect, int delay, int show_time)
+{
+    GiveGameNews("", news, texture_name, delay, show_time, 0);
+    return true;
+}
+
 void CScriptGameObject::GiveGameNews(LPCSTR caption, LPCSTR news, LPCSTR texture_name, int delay, int show_time)
 {
     GiveGameNews(caption, news, texture_name, delay, show_time, 0);
